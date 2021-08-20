@@ -1,0 +1,1 @@
+worker: python dick_bot.py
