@@ -8,8 +8,11 @@ from app.states.interview import Interview
 from app.utils.db_api.sqlite import db
 
 
-async def interview_start(message: types.Message, state: FSMContext):
+async def interview_start(message: types.Message):
     """Обработчик первого шага, реагирующий на команду start"""
+
+    await message.answer(f"Привет {message.from_user.get_mention(as_html=True)}")
+    """
     await state.finish()
     user_id = message.from_user.id
     user_name = message.from_user.first_name
@@ -27,19 +30,8 @@ async def interview_start(message: types.Message, state: FSMContext):
     await message.answer(text="Какую услугу вы хотите получить?",
                          reply_markup=keyboard)
 
-    await Interview.waiting_for_service_selection.set()
-
-
-# Уточнить нужен ли подобный функционал
-async def cmd_cancel(message: types.Message, state: FSMContext):
-    await state.finish()
-    await message.answer(text="Действие отменено",
-                         reply_markup=types.ReplyKeyboardRemove())
+    await Interview.waiting_for_service_selection.set()"""
 
 
 def register_handlers_common(dp: Dispatcher):
-    dp.register_message_handler(interview_start, commands="start", state="*")
-    dp.register_message_handler(cmd_cancel, commands="cancel", state="*")
-    dp.register_message_handler(cmd_cancel,
-                                Text(equals="отмена", ignore_case=True),
-                                state="*")
+    dp.register_message_handler(interview_start, commands="start")
