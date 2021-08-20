@@ -6,6 +6,7 @@ from aiogram.types import BotCommand
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 from app.config_reader import load_config
+from app.handlers.error_handler import register_handlers_errors
 from app.handlers.common import register_handlers_common
 
 
@@ -15,8 +16,9 @@ logger = logging.getLogger(__name__)
 # Регистрация команд, отображаемых в интерфейсе Telegram
 async def set_commands(bot: Bot):
     commands = [
-        BotCommand(command="/start", description="Старт"),
-        BotCommand(command="/cancel", description="Отмена")
+        BotCommand(command="/start", description="Регистрация нового члена"),
+        BotCommand(command="/biba", description="Биба?"),
+        BotCommand(command="/gay", description="Гей?")
     ]
     await bot.set_my_commands(commands)
 
@@ -31,12 +33,14 @@ async def main():
 
     # Парсинг файла конфигурации
     config = load_config("config/bot.ini")
+    storage = MemoryStorage()
 
     # Объявление и инициализация объектов бота и диспетчера
     bot = Bot(token=config.tg_bot.token)
-    dp = Dispatcher(bot, storage=MemoryStorage())
+    dp = Dispatcher(bot, storage=storage)
 
     # Регистрация хэндлеров
+    register_handlers_errors(dp)
     register_handlers_common(dp)
 
     # Установка команд бота
@@ -44,7 +48,15 @@ async def main():
 
     # Запуск поллинга
     # await dp.skip_updates()  # пропуск накопившихся апдейтов (необязательно)
-    await dp.start_polling()
+    try:
+        await dp.start_polling()
+    finally:
+        await dp.storage.close()
+        await dp.storage.wait_closed()
+        await bot.session.close()
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except (KeyboardInterrupt, SystemExit):
+        logger.error("Bot stopped!")
