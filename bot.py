@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 # Регистрация команд, отображаемых в интерфейсе Telegram
 async def set_commands(bot: Bot):
     commands = [
+        BotCommand(command="/help", description="Чё к чему"),
         BotCommand(command="/start", description="Регистрация нового члена"),
         BotCommand(command="/biba", description="Биба?"),
         BotCommand(command="/gay", description="Гей?")
