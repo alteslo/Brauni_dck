@@ -7,15 +7,16 @@ import re
 from app.config_reader import load_config
 
 
+config = load_config("config/bot.ini")
+terpila = config.tg_bot.terpila_id
+
+
 async def byba(message: types.Message):
     """Измеряет твою бибу или бибу друга"""
     command_parse = re.compile(r"(!biba|/biba) ?([\w+ ]+)?")
     parsed = command_parse.match(message.text)
     rofl_user = parsed.group(2)
     length = random.randint(3, 25)
-
-    config = load_config("config/bot.ini")
-    terpila = config.tg_bot.terpila_id
 
     if message.reply_to_message:
         target = message.reply_to_message.from_user.get_mention(as_html=True)
