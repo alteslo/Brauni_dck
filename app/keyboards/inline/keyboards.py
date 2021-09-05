@@ -1,19 +1,27 @@
 from aiogram import types
 
 
-async def kb_interviwe(buttons=1, row_width=1):
+async def kb_interviwe(buttons=1):
     if buttons == 1:
         button = [types.InlineKeyboardButton(text="Пройдемте!",
-                                            url="https://t.me/Brauni_dickbot",
-                                            callback_data="interviwe")]
+                                             url="https://t.me/Brauni_dickbot",
+                                             callback_data="send_priv_msg")]
     else:
         button = [
             types.InlineKeyboardButton(text="Я спиздел!",
                                        url="https://t.me/Brauni_dickbot",
-                                       callback_data="interviwe"),
+                                       callback_data="send_priv_msg"),
             types.InlineKeyboardButton(text="Пошел нахуй",
                                        callback_data="interviwe")
                                        ]
-    keyboard = types.InlineKeyboardMarkup(row_width=row_width)
+    keyboard = types.InlineKeyboardMarkup(row_width=2)
     keyboard.add(*button)
+    return keyboard
+
+
+async def kb_private_in():
+    button = types.InlineKeyboardButton(text="Валяй",
+                                        callback_data="interview")
+    keyboard = types.InlineKeyboardMarkup()
+    keyboard.add(button)
     return keyboard

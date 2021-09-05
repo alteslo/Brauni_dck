@@ -1,4 +1,5 @@
 from aiogram import Dispatcher, types
+from aiogram.dispatcher import filters
 from aiogram.dispatcher.filters import Command
 
 import random
@@ -47,5 +48,11 @@ async def gay(message: types.Message):
 
 def register_handlers_rofl(dp: Dispatcher):
     """Регистрируем рофляные хэндлеры"""
-    dp.register_message_handler(byba, Command(commands="biba", prefixes='!/'))
-    dp.register_message_handler(gay, Command(commands="gay", prefixes='!/'))
+    dp.register_message_handler(byba,
+                                filters.ChatTypeFilter(
+                                    types.ChatType.SUPERGROUP),
+                                Command(commands="biba", prefixes='!/'))
+    dp.register_message_handler(gay,
+                                filters.ChatTypeFilter(
+                                    types.ChatType.SUPERGROUP),
+                                Command(commands="gay", prefixes='!/'))

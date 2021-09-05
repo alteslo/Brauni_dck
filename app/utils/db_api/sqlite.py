@@ -39,14 +39,15 @@ class Database():
             name VARCHAR(150) NOT NULL,
             birthday VARCHAR(150),
             ded VARCHAR(150),
-            naval VARCHAR(150));
+            naval VARCHAR(150),
+            chat_id VARCHAR(150));
         """
         self.execute(sql, commit=True)
 
-    def add_user(self, user_id: int, name: str, birthday: str = None, ded: str = None, naval: str = None):
+    def add_user(self, user_id: int, name: str, birthday: str = None, ded: str = None, naval: str = None, chat_id: str = None):
         """Добавляем нового пользователя"""
-        sql = """INSERT INTO users(user_id, name, birthday, ded, naval) VALUES (?, ?, ?, ?, ?);"""
-        parameters = (user_id, name, birthday, ded, naval)
+        sql = """INSERT INTO users(user_id, name, birthday, ded, naval, chat_id) VALUES (?, ?, ?, ?, ?, ?);"""
+        parameters = (user_id, name, birthday, ded, naval, chat_id)
         self.execute(sql, parameters=parameters, commit=True)
 
     def select_all_users(self):
@@ -88,6 +89,14 @@ class Database():
     def update_user_naval(self, naval, user_id):
         sql = """UPDATE users SET naval=? WHERE user_id=?"""
         return self.execute(sql, parameters=(naval, user_id), commit=True)
+
+    def update_chat_id(self, chat_id, user_id):
+        sql = """UPDATE users SET chat_id=? WHERE user_id=?"""
+        return self.execute(sql, parameters=(chat_id, user_id), commit=True)
+
+    def select_chat_id(self, user_id):
+        sql = """SELECT chat_id FROM users WHERE user_id=?"""
+        return self.execute(sql, parameters=(user_id,), fetchone=True)
 
     def delete_users(self):
         sql = """DELETE FROM users"""
