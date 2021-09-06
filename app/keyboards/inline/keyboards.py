@@ -3,8 +3,9 @@ from aiogram import types
 
 async def kb_interviwe(buttons=1):
     if buttons == 1:
-        button = [types.InlineKeyboardButton(text="Пройдемте!",
-                                             url="https://t.me/Brauni_dickbot")]
+        button = [types.InlineKeyboardButton(
+            text="Пройдемте!",
+            url="https://t.me/Brauni_dickbot")]
     else:
         button = [
             types.InlineKeyboardButton(text="Я спиздел!",

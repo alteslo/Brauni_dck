@@ -43,7 +43,8 @@ async def gay(message: types.Message):
     else:
         target = message.from_user.get_mention(as_html=True)
 
-    await message.reply(f"Похоже {target} гей на {percentage}%", parse_mode='HTML')
+    await message.reply(f"Похоже {target} гей на {percentage}%",
+                        parse_mode='HTML')
 
 
 def register_handlers_rofl(dp: Dispatcher):

@@ -10,19 +10,26 @@ from app.keyboards.inline import keyboards
 async def interview(message: types.Message):
 
     keyboard = await keyboards.kb_private_in()
-    await message.answer(text="Петушок.\nТеперь ответь на вопрос", reply_markup=keyboard)
+    await message.answer(text="Петушок.\nТеперь ответь на вопрос",
+                         reply_markup=keyboard)
 
 
 async def birthday(call: types.CallbackQuery, state: FSMContext):
     await call.answer()
-    await call.message.answer("Назови дату своего рождения в формате 'dd.mm.yyyy'")
+    await call.message.answer(
+        "Назови дату своего рождения в формате 'dd.mm.yyyy'")
     await state.set_state("wait_birthday")
 
 
 async def check_answer(message: types.Message, state: FSMContext):
     print(f"{message.text=}")
     msg_parse = re.compile(
-        r"^(?:(?:31(\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$")
+        r"^(?:(?:31(\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\.)"
+        r"(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\.)"
+        r"0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|"
+        r"(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\.)"
+        r"(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$"
+        )
     parsed = msg_parse.match(message.text)
     if parsed:
         print(f"{parsed=}")
