@@ -23,6 +23,7 @@ async def interview_start(message: types.Message):
 
         await message.answer(text=text, parse_mode='HTML',
                              reply_markup=await keyboards.kb_interviwe())
+    await message.bot.send_message(chat_id=user_id, text="Нажми /start, чтобы пройти регистрацию")
 
 
 async def help_info(message: types.Message):
