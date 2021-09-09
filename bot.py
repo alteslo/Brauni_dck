@@ -7,6 +7,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 from app.config_reader import load_config
 from app.handlers.error_handler import register_handlers_errors
+from app.handlers.chat import register_handlers_regex
 from app.handlers.common import register_handlers_common
 from app.handlers.rofl import register_handlers_rofl
 from app.handlers.interview import register_handlers_interview
@@ -43,6 +44,7 @@ async def main():
 
     # Регистрация хэндлеров
     register_handlers_errors(dp)
+    register_handlers_regex(dp)
     register_handlers_common(dp)
     register_handlers_rofl(dp)
     register_handlers_interview(dp)

@@ -21,6 +21,11 @@ async def birthday(call: types.CallbackQuery, state: FSMContext):
     await state.set_state("wait_birthday")
 
 
+async def check_stop(call: types.CallbackQuery):
+    await call.answer()
+    await call.message.edit_text("Сам иди нахуй!")
+
+
 async def check_answer(message: types.Message, state: FSMContext):
     print(f"{message.text=}")
     msg_parse = re.compile(
@@ -43,6 +48,10 @@ async def check_answer(message: types.Message, state: FSMContext):
 
 
 def register_handlers_interview(dp: Dispatcher):
+    dp.register_callback_query_handler(check_stop,
+                                       filters.ChatTypeFilter(
+                                            types.ChatType.SUPERGROUP),
+                                       text="stop")
     dp.register_message_handler(interview,
                                 filters.ChatTypeFilter(
                                     types.ChatType.PRIVATE),

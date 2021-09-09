@@ -104,3 +104,4 @@ class Database():
 
 
 db = Database()
+# db.delete_users()
