@@ -27,7 +27,6 @@ async def check_stop(call: types.CallbackQuery):
 
 
 async def check_answer(message: types.Message, state: FSMContext):
-    print(f"{message.text=}")
     msg_parse = re.compile(
         r"^(?:(?:31(\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\.)"
         r"(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\.)"
@@ -37,14 +36,12 @@ async def check_answer(message: types.Message, state: FSMContext):
         )
     parsed = msg_parse.match(message.text)
     if parsed:
-        print(f"{parsed=}")
         db.update_user_birthday(message.text, message.from_user.id)
         await message.answer("Записал")
         await state.finish()
     else:
-        await message.answer("Ты читать не умеешь?\n"
-                             "Ответ должен быть в формате 'dd.mm.yyyy'\n"
-                             "Пробуй снова")
+        await message.answer("Вынь хуй из глаз\n"
+                             "Читай по буквам: Ответ должен быть в формате 'dd.mm.yyyy'\n")
 
 
 def register_handlers_interview(dp: Dispatcher):
