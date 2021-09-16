@@ -39,14 +39,23 @@ class Database():
             name VARCHAR(150) NOT NULL,
             birthday VARCHAR(150),
             ded VARCHAR(150),
-            naval VARCHAR(150),
+            naval VARCHAR(150));
+        """
+        self.execute(sql, commit=True)
+
+    def create_table_users_chats(self):
+        """Создаем структуру базы данных"""
+        sql = """
+        CREATE TABLE users_chats(
+            user_id INT,
             chat_id VARCHAR(150));
         """
         self.execute(sql, commit=True)
 
     def add_user(self, user_id: int, name: str, birthday: str = None, ded: str = None, naval: str = None, chat_id: str = None):
         """Добавляем нового пользователя"""
-        sql = """INSERT INTO users(user_id, name, birthday, ded, naval, chat_id) VALUES (?, ?, ?, ?, ?, ?);"""
+        sql = """INSERT INTO users(user_id, name, birthday, ded, naval) VALUES (?, ?, ?, ?, ?);
+                 INSERT INTO users_chats(user_id, chat_id) VALUES (?, ?);"""
         parameters = (user_id, name, birthday, ded, naval, chat_id)
         self.execute(sql, parameters=parameters, commit=True)
 
@@ -104,4 +113,5 @@ class Database():
 
 
 db = Database()
+
 # db.delete_users()
