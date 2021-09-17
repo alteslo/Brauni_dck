@@ -1,14 +1,19 @@
+from itertools import chain
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import filters
 
-from app.utils.db_api.sqlite import db
+from app.utils.db_api.db_model import Databse
 from app.keyboards.inline import keyboards
 
 
 async def interview_start(message: types.Message):
     """Обработчик первого шага, реагирующий на команду start"""
+    db = Databse()
     user_id = message.from_user.id
+    chat_id = message.chat.id
     name = message.from_user.full_name
+    db.select_current_chat_users(chat_id)
+    
     print(message.chat.id)
     text = (f"Привет {message.from_user.get_mention(as_html=True)}!"
             f"\nТоварищ полковник интересуется тобой и придется ответить "
