@@ -44,11 +44,27 @@ class Databse():
             users_information.append((i.user_id, i.name, i.birthday, i.ded, i.naval))
         return users_information
 
+    def select_all_users_id(self):
+        """Возвращает все id пользователей"""
+        query = Telegram_User.select()
+        users_id = [i.user_id for i in query]
+        return users_id
+
+    def select_user(self, user_id):
+        """Возвращает данные пользователя"""
+        query = Telegram_User.select()
+        users_id = [i.user_id for i in query]
+        return users_id
+
     def select_current_chat_users(self, chat_id):
         """Возвращает все user_id для указанного чата"""
         query = Telegram_User.select().join(User_Chat).where(User_Chat.chat_id == chat_id)
         current_chat_users_id = [i.user_id for i in query]
         return current_chat_users_id
+
+    def select_chats_user_in(self, user_id):
+        """Возвращает список чатов доступных для пользователя"""
+        pass
 
     def add_user(self, user_id: int, chat_id: str, name: str, birthday: str = None, ded: str = None, naval: str = None):
         Telegram_User.create(
@@ -68,5 +84,4 @@ class Databse():
 
 a = Databse()
 # a.add_user(user_id=11111, chat_id="-222222", name="Victor")
-for i in a.select_all_user():
-    print(i)
+print(a.select_all_users_id())

@@ -13,7 +13,7 @@ async def interview_start(message: types.Message):
     chat_id = message.chat.id
     name = message.from_user.full_name
     db.select_current_chat_users(chat_id)
-    
+
     print(message.chat.id)
     text = (f"Привет {message.from_user.get_mention(as_html=True)}!"
             f"\nТоварищ полковник интересуется тобой и придется ответить "
