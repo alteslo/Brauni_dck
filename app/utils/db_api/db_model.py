@@ -52,9 +52,14 @@ class Databse():
 
     def select_user(self, user_id):
         """Возвращает данные пользователя"""
-        query = Telegram_User.select()
-        users_id = [i.user_id for i in query]
-        return users_id
+        query = User_Chat.select().where(User_Chat.user_id == user_id)
+        users_id = [i.chat_id for i in query]
+        query = Telegram_User.select().where(Telegram_User.user_id == user_id)
+        user_inf = []
+        for i in query:
+            user_inf.extend([i.user_id, i.name, i.birthday, i.ded, i.naval])
+        user_inf.append(users_id)
+        return user_inf
 
     def select_current_chat_users(self, chat_id):
         """Возвращает все user_id для указанного чата"""
@@ -64,7 +69,9 @@ class Databse():
 
     def select_chats_user_in(self, user_id):
         """Возвращает список чатов доступных для пользователя"""
-        pass
+        query = User_Chat.select().where(User_Chat.user_id == user_id)
+        users_id = [i.chat_id for i in query]
+        return users_id
 
     def add_user(self, user_id: int, chat_id: str, name: str, birthday: str = None, ded: str = None, naval: str = None):
         Telegram_User.create(
@@ -75,8 +82,11 @@ class Databse():
             naval=naval)
         User_Chat.create(user_id=user_id, chat_id=chat_id)
 
+    def add_user_in_user_chat(self, user_id: int, chat_id: str):
+        User_Chat.create(user_id=user_id, chat_id=chat_id)
+
     def update_user(self):
-        pass
+        User_Chat
 
     def delete_users(self):
         pass
@@ -84,4 +94,5 @@ class Databse():
 
 a = Databse()
 # a.add_user(user_id=11111, chat_id="-222222", name="Victor")
-print(a.select_all_users_id())
+b = a.select_user(610843180)
+print(b[-1])

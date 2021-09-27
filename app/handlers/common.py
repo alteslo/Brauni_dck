@@ -12,15 +12,14 @@ async def interview_start(message: types.Message):
     user_id = message.from_user.id
     chat_id = message.chat.id
     name = message.from_user.full_name
-    db.select_current_chat_users(chat_id)
-
-    print(message.chat.id)
     text = (f"Привет {message.from_user.get_mention(as_html=True)}!"
             f"\nТоварищ полковник интересуется тобой и придется ответить "
             f"на некоторые  вопросы.")
 
-    db_user = db.select_user(user_id=user_id, chat_id=message.chat.id)
+    db_user = db.select_user(user_id)
     if db_user:
+        if chat_id not in db_user[-1]:
+            db.add_user_in_user_chat(user_id, chat_id)
         await message.answer(
             text="Ты уже взят на карандаш",
             reply_markup=await keyboards.kb_interviwe(buttons=2))
